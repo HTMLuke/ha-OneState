@@ -1,0 +1,13 @@
+{
+  "domain": "ha_onestate",
+  "name": "OneState",
+  "version": "2026.3.0",
+  "config_flow": true,
+  "codeowners": ["@htmluke", "@henriii-01"],
+  "dependencies": [],
+  "documentation": "https://github.com/HTMLuke/ha-OneState/",
+  "issue_tracker": "https://github.com/HTMLuke/ha-OneState/issues/",
+  "integration_type": "entity",
+  "iot_class": "calculated",
+  "requirements": []
+}
