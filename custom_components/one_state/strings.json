@@ -1,0 +1,12 @@
+{
+  "title": "OneState",
+  "config": {
+    "step": {
+      "user": {
+        "title": "OneState",
+        "description": "Set up OneState.",
+        "data": {}
+      }
+    }
+  }
+}

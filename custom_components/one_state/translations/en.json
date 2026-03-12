@@ -1,0 +1,15 @@
+{
+  "title": "OneState",
+  "config": {
+    "step": {
+      "user": {
+        "title": "OneState",
+        "description": "Set up the OneState integration.",
+        "data": {}
+      }
+    },
+    "abort": {
+      "already_configured": "OneState is already configured."
+    }
+  }
+}

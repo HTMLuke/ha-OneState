@@ -1,0 +1,5 @@
+// this file is just so there are no import errors
+{
+  "reportMissingImports": "none",
+  "reportMissingModuleSource": "none"
+}
