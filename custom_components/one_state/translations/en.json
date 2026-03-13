@@ -4,12 +4,29 @@
     "step": {
       "user": {
         "title": "OneState",
-        "description": "Set up the OneState integration.",
-        "data": {}
+        "description": "Name your new OneState.",
+        "data": {
+          "hub_name": "OneState Name"
+        }
+      },
+      "state": {
+        "title": "OneState",
+        "description": "Here you can add a condition for OneState to monitor. \n Dont't worry you can add more than one by clicking 'Ok' and 'Add' \n You have currently added: {count} conditions.",
+        "data": {
+          "entity_id": "Choose your Entity",
+          "operator": "Operator",
+          "value": "Value",
+          "action": "How should OneState react when the condition is fulfilled?"
+        }
+      },
+      "add_more": {
+        "title": "OneState",
+        "description": "State added. Total states: {count}.",
+        "menu_options": {
+          "add_state": "Add state",
+          "finish": "Finish"
+        }
       }
-    },
-    "abort": {
-      "already_configured": "OneState is already configured."
     }
   }
 }
