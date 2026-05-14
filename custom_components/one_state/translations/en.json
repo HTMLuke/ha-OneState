@@ -13,7 +13,14 @@
         "title": "OneState",
         "description": "Here you can add a condition for OneState to monitor. \n Dont't worry you can add more than one by clicking 'Ok' and 'Add' \n You have currently added: {count} conditions.",
         "data": {
-          "entity_id": "Choose your Entity",
+          "entity_id": "Choose your Entity"
+        }
+      },
+      "state_condition": {
+        "title": "OneState condition",
+        "description": "Define the state for {entity}.",
+        "data": {
+          "entity_display": "Selected Entity:",
           "operator": "Operator",
           "value": "Value",
           "action": "How should OneState react when the condition is fulfilled?"

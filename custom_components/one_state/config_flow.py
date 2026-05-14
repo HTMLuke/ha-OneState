@@ -35,9 +35,26 @@ class OneStateConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # type: ign
             self._states = []
 
         if user_input is not None:
+            self._current_entity = user_input["entity_id"]
+            return await self.async_step_state_condition()
+
+        schema = vol.Schema(
+            {
+                vol.Required("entity_id"): selector.EntitySelector(),
+            }
+        )
+
+        return self.async_show_form(
+            step_id="state",
+            data_schema=schema,
+            description_placeholders={"count": str(len(self._states))},
+        )
+
+    async def async_step_state_condition(self, user_input=None) -> FlowResult:
+        if user_input is not None:
             self._states.append(
                 {
-                    "entity_id": user_input["entity_id"],
+                    "entity_id": self._current_entity,
                     "operator": user_input["operator"],
                     "value": user_input["value"],
                     "action": user_input["action"],
@@ -47,29 +64,35 @@ class OneStateConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # type: ign
 
         schema = vol.Schema(
             {
-            vol.Required("entity_id"): selector.EntitySelector(),
-            vol.Required("operator", default="="): selector.SelectSelector(
-                selector.SelectSelectorConfig(
-                    options=["<", ">", "=", "!=", ">=", "<="],
-                    mode=selector.SelectSelectorMode.DROPDOWN,
-                )
-            ),
-            vol.Required("value"): selector.TextSelector(
-                selector.TextSelectorConfig()
-            ),
-            vol.Required("action", default="Set OneState to WARNING"): selector.SelectSelector(
-                selector.SelectSelectorConfig(
-                    options=["Set OneState to WARNING", "Set OneState to CRITICAL"],
-                    mode=selector.SelectSelectorMode.DROPDOWN,
-                )
-            ),
+                vol.Required("entity_display", default=self._current_entity): selector.EntitySelector(
+                    selector.EntitySelectorConfig(include_entities=[self._current_entity])
+                ),
+                vol.Required("operator", default="="): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=["<", ">", "=", "!=", ">=", "<="],
+                        mode=selector.SelectSelectorMode.DROPDOWN,
+                    )
+                ),
+                vol.Required("value"): selector.StateSelector(
+                    selector.StateSelectorConfig(entity_id=self._current_entity)
+                ),
+                vol.Required("action", default="Set OneState to Warning"): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=["Set OneState to Warning", "Set OneState to Critical"],
+                        mode=selector.SelectSelectorMode.DROPDOWN,
+                    )
+                ),
             }
         )
 
+        # Get entity name for description fallback (not strictly needed now, but good)
+        state_obj = self.hass.states.get(self._current_entity)
+        entity_name = state_obj.name if state_obj else self._current_entity
+
         return self.async_show_form(
-            step_id="state",
+            step_id="state_condition",
             data_schema=schema,
-            description_placeholders={"count": str(len(self._states))},
+            description_placeholders={"entity": entity_name},
         )
 
     async def async_step_add_more(self, user_input=None) -> FlowResult:

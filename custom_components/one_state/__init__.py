@@ -18,6 +18,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = {}
     _LOGGER.info("OneState: config entry loaded (entry_id=%s)", entry.entry_id)
+    await hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
     return True
 
 
